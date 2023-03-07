@@ -138,8 +138,13 @@ void LtgemmTensor_fp8(cublasLtHandle_t ltHandle,
                                      Ctransform,
                                      CtransformDesc,
                                      NULL,
+                                     /*workspace,
+                                     workspaceSize,
+                                     ->
                                      NULL,
-                                     0,
+                                     NULL,*/
+                                     workspace,
+                                     workspaceSize,
                                      0));
 
     opTranspose = CUBLAS_OP_N;
