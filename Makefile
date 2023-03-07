@@ -1,6 +1,8 @@
 OBJ += fp32
 OBJ += int8
 OBJ += fp8
+OBJ += fp16
+
 
 
 FLAGS = -std=c++11 -lstdc++ -lcublas -gencode arch=compute_89,code=sm_89 -gencode arch=compute_90,code=sm_90 -res-usage -lcublasLt -lcudart -lcufft -lineinfo -Xcompiler -fopenmp
@@ -18,6 +20,9 @@ int8 : int8.cpp cublasLt_Ltgemm_int8.cu
 	nvcc $^ -o $@ $(FLAGS)
 
 fp8 : fp8.cpp cublasLt_Ltgemm_fp8.cu
+	nvcc $^ -o $@ $(FLAGS)
+
+fp16 : fp16.cpp cublasLt_Ltgemm_fp16.cu
 	nvcc $^ -o $@ $(FLAGS)
 
 .PHONY : clean

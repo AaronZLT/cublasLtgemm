@@ -34,9 +34,13 @@
 #include <functional>
 
 #include <cublasLt.h>
+#include <cuda_runtime.h>
 #include <cuda_runtime_api.h>
 #include <cuda_fp8.h>
-#include <cuda_bf16.h>
+// #include <cuda_bf16.h>
+// #include <cuda_fp16.h>
+
+using namespace std;
 
 #define INITTIMER            \
     float milliseconds = 0;  \
@@ -166,6 +170,16 @@ inline void TestBench<__nv_fp8_e4m3, float, float, __nv_bfloat16>::fillData()
         biasHost[i] = __float2bfloat16(i + 1);
 }
 
+template <>
+inline void TestBench<__half>::fillData()
+{
+    for (int i = 0; i < m * k * N; i++)
+        Ahost[i] = __float2half_rn(i);
+    for (int i = 0; i < n * k * N; i++)
+        Bhost[i] = __float2half_rn(i);
+    for (int i = 0; i < m * N; i++)
+        biasHost[i] = __float2half_rn(i + 1);
+}
 template <>
 inline void TestBench<__half, __half, float>::fillData()
 {
